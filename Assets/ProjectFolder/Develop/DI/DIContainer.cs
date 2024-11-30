@@ -9,7 +9,7 @@ namespace Assets.ProjectFolder.Develop.DI
 
         private readonly DIContainer _parent;
 
-        private readonly List<Type> _requests;
+        private readonly List<Type> _requests = new();
 
         public DIContainer() : this(null)
         {
