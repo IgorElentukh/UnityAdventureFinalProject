@@ -1,4 +1,5 @@
 ﻿using Assets.ProjectFolder.Develop.CommonServices.LoadingScreen;
+using Assets.ProjectFolder.Develop.CommonServices.SceneManagement;
 using Assets.ProjectFolder.Develop.DI;
 using System;
 using System.Collections;
@@ -16,6 +17,8 @@ namespace Assets.ProjectFolder.Develop.EntryPoint
         {
             ILoadingCurtain loadingCurtain = container.Resolve<ILoadingCurtain>();
             loadingCurtain.Show();
+
+            SceneSwitcher sceneSwitcher = container.Resolve<SceneSwitcher>();
             
             Debug.Log("Начинается инициализация сервисов");
 
@@ -23,6 +26,8 @@ namespace Assets.ProjectFolder.Develop.EntryPoint
 
             Debug.Log("Завершается инициализация сервисов проекта, начинается переход на сцену");
             loadingCurtain.Hide();
+
+            sceneSwitcher.ProcessSwitchSceneFor(new OutputBootstrapArgs(new MainMenuInputArgs()));
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Assets.ProjectFolder.Develop.DI
 {
-    internal class DIContainer
+    public class DIContainer
     {
         private readonly Dictionary<Type, Registration> _container = new();
 
