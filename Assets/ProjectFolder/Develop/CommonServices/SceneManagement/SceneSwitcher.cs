@@ -5,10 +5,6 @@ using Assets.ProjectFolder.Develop.Gameplay.Infrastructure;
 using Assets.ProjectFolder.Develop.MainMenu.Infrastructure;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Object = UnityEngine.Object;
 
 namespace Assets.ProjectFolder.Develop.CommonServices.SceneManagement

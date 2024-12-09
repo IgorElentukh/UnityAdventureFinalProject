@@ -1,4 +1,5 @@
-﻿using Assets.ProjectFolder.Develop.CommonServices.LoadingScreen;
+﻿using Assets.ProjectFolder.Develop.CommonServices.DataManagement.DataProviders;
+using Assets.ProjectFolder.Develop.CommonServices.LoadingScreen;
 using Assets.ProjectFolder.Develop.CommonServices.SceneManagement;
 using Assets.ProjectFolder.Develop.DI;
 using System;
@@ -21,6 +22,8 @@ namespace Assets.ProjectFolder.Develop.EntryPoint
             SceneSwitcher sceneSwitcher = container.Resolve<SceneSwitcher>();
             
             Debug.Log("Начинается инициализация сервисов");
+
+            container.Resolve<PlayerDataProvider>().Load();
 
             yield return new WaitForSeconds(1.5f);
 

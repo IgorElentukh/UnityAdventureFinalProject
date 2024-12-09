@@ -1,6 +1,7 @@
 ﻿using Assets.ProjectFolder.Develop.CommonServices.AssetsManagement;
 using Assets.ProjectFolder.Develop.CommonServices.CoroutinePerformer;
 using Assets.ProjectFolder.Develop.CommonServices.DataManagement;
+using Assets.ProjectFolder.Develop.CommonServices.DataManagement.DataProviders;
 using Assets.ProjectFolder.Develop.CommonServices.LoadingScreen;
 using Assets.ProjectFolder.Develop.CommonServices.SceneManagement;
 using Assets.ProjectFolder.Develop.DI;
@@ -25,6 +26,7 @@ namespace Assets.ProjectFolder.Develop.EntryPoint
             RegisterSceneLoader(projectContainer);
             RegisterSceneSwitcher(projectContainer);
             RegisterSaveLoadService(projectContainer);
+            RegisterPlayerDataProvider(projectContainer);
 
             projectContainer.Resolve<ICoroutinePerformer>().StartPerform(_gameBootstrap.Run(projectContainer));
         }
@@ -69,5 +71,8 @@ namespace Assets.ProjectFolder.Develop.EntryPoint
         private void RegisterSaveLoadService(DIContainer container)
             => container.RegisterAsSingle<ISaveLoadService>(c => new SaveLoadService(new JsonSerializer(), new LocalDataRepository()));
 
+
+        private void RegisterPlayerDataProvider(DIContainer container)
+            => container.RegisterAsSingle(c => new PlayerDataProvider(c.Resolve<ISaveLoadService>()));
     }
 }

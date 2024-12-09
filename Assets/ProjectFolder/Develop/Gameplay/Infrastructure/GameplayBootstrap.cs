@@ -1,5 +1,7 @@
+using Assets.ProjectFolder.Develop.CommonServices.AssetsManagement;
 using Assets.ProjectFolder.Develop.CommonServices.SceneManagement;
 using Assets.ProjectFolder.Develop.DI;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -24,13 +26,19 @@ namespace Assets.ProjectFolder.Develop.Gameplay.Infrastructure
 
         private void ProcessRegistrations()
         {
-            
+            RegisterGameplayService(_container);
+
+            _container.Resolve<GameplayService>().Initialize(_container);
         }
 
-        private void Update()
+        private void RegisterGameplayService(DIContainer container)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-                _container.Resolve<SceneSwitcher>().ProcessSwitchSceneFor(new OutputGameplayArgs(new MainMenuInputArgs()));
+            container.RegisterAsSingle<GameplayService>(c =>
+            {
+                ResourcesAssetsLoader resourcesAssetsLoader = c.Resolve<ResourcesAssetsLoader>();
+                GameplayService gameplayServicePrefab = resourcesAssetsLoader.LoadResource<GameplayService>(InfrastructureAssetsPath.GameplayServicePath);
+                return Instantiate(gameplayServicePrefab);
+            }).NonLazy();
         }
     }
 }
