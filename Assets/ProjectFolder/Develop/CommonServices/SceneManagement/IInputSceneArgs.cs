@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.ProjectFolder.Develop.CommonServices.GameModeService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +14,11 @@ namespace Assets.ProjectFolder.Develop.CommonServices.SceneManagement
 
     public class GameplayInputArgs : IInputSceneArgs
     {
-        public GameplayInputArgs(int levelNumber)
+        public GameplayInputArgs(GameModeType type)
         {
-            LevelNumber = levelNumber;
+            GameModeType = type;
         }
-
-        public int LevelNumber { get; }
+        public GameModeType GameModeType {get;}
     }
 
     public class MainMenuInputArgs : IInputSceneArgs

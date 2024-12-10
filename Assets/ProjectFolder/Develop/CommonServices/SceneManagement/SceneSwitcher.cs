@@ -40,7 +40,7 @@ namespace Assets.ProjectFolder.Develop.CommonServices.SceneManagement
                     _coroutinePerformer.StartPerform(ProcessSwitchFromMainMenuScene(outputMainMenuArgs));
                     break;
 
-                case OutputGameplayArgs outputGameplayArgs:
+                case OutputGamePlayArgs outputGameplayArgs:
                     _coroutinePerformer.StartPerform(ProcessSwitchFromGameplayScene(outputGameplayArgs));
                     break;
 
@@ -75,7 +75,7 @@ namespace Assets.ProjectFolder.Develop.CommonServices.SceneManagement
             }
         }
 
-        private IEnumerator ProcessSwitchFromGameplayScene(OutputGameplayArgs outputGameplayArgs)
+        private IEnumerator ProcessSwitchFromGameplayScene(OutputGamePlayArgs outputGameplayArgs)
         {
             switch (outputGameplayArgs.NextSceneInputArgs)
             {

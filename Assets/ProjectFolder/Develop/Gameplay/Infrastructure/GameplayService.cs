@@ -11,65 +11,77 @@ namespace Assets.ProjectFolder.Develop.Gameplay.Infrastructure
 {
     public class GameplayService : MonoBehaviour
     {
+        private const string AvailableLetters = "ABCDEFG";
+        private const string AvailableDigits = "1234567890";
+        private const int SequenceLength = 5;
+
         private DIContainer _container;
-        private GameModeService _gameModeService;
-        private SceneSwitcher _sceneSwitcher;
+        private GameModeType _gameModeType;
 
         private string _sequence;
-        private int _currentInputIndex;
+        private string _userInput = "";
+        private bool isGameOver = false;
 
-        public void Initialize(DIContainer container)
+
+        public void Initialize(DIContainer container, GameModeType type)
         {
             _container = container;
+            _gameModeType = type;
+
         }
 
         private void Start()
         {
-            _gameModeService = _container.Resolve<GameModeService>();
-            _sceneSwitcher = _container.Resolve<SceneSwitcher>();
-
             StartGame();
         }
 
+        private void Update()
+        {
+            if(isGameOver)
+                if (Input.GetKeyDown(KeyCode.Space))
+                    _container.Resolve<SceneSwitcher>().ProcessSwitchSceneFor(new OutputGamePlayArgs(new MainMenuInputArgs()));
+
+            if (Input.anyKeyDown && string.IsNullOrEmpty(Input.inputString) == false)
+            {
+                char key = Input.inputString[0];
+
+                _userInput += key;
+                Debug.Log($"Игрок ввёл: {_userInput}");
+
+                if (_userInput.Length == _sequence.Length)
+                {
+                   CheckInput();
+                   isGameOver = true;
+                }    
+            }
+        }
         private void StartGame()
         {
-            _sequence = GenerateSequence(_gameModeService.SelectedMode);
-            _currentInputIndex = 0;
+            _sequence = GenerateSequence(_gameModeType);
 
             Debug.Log($"Последовательность: {_sequence}");
         }
-
 
         private string GenerateSequence(GameModeType mode)
         {
             string sequence = "";
 
-            switch(mode)
-            {
-                case GameModeType.Letters:
-                    sequence = GenerateRandomLetters();
-                    break;
+            string source = mode == GameModeType.Letters ? AvailableLetters : AvailableDigits;
 
-                //case GameModeType.Figures:
-                //    sequence = GenerateRandomFigures();
-                //    break;
+            for (int i = 0; i < SequenceLength; i++)
+            {
+                char randomLetter = source[Random.Range(0, source.Length)];
+                sequence += randomLetter;
             }
 
             return sequence;
         }
-
-        private string GenerateRandomLetters()
+        private void CheckInput()
         {
-            string result = "";
-            string availableLetters = "ABCDEFG";
-
-            for (int i = 0; i < 5; i++)
-            {
-                char randomLetter = availableLetters[Random.Range(0, availableLetters.Length)];
-                result += randomLetter;
-            }
-
-            return result;
+            if (_userInput.ToUpper() == _sequence)
+                Debug.Log("Победа! Нажмите пробел, чтобы вернуться в меню.");
+            else
+                Debug.Log("Проигрыш! Нажмите пробел, чтобы начать заново.");
         }
     }
 }

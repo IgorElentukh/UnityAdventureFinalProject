@@ -21,16 +21,16 @@ namespace Assets.ProjectFolder.Develop.CommonServices.SceneManagement
         public IInputSceneArgs NextSceneInputArgs { get; }
     }
 
-    public class OutputGameplayArgs : OutputSceneArgs
+    public class OutputMainMenuArgs : OutputSceneArgs
     {
-        public OutputGameplayArgs(IInputSceneArgs nextSceneInputArgs) : base(nextSceneInputArgs)
+        public OutputMainMenuArgs(IInputSceneArgs nextSceneInputArgs) : base(nextSceneInputArgs)
         {
         }
     }
 
-    public class OutputMainMenuArgs : OutputSceneArgs
+    public class OutputGamePlayArgs : OutputSceneArgs
     {
-        public OutputMainMenuArgs(IInputSceneArgs nextSceneInputArgs) : base(nextSceneInputArgs)
+        public OutputGamePlayArgs(IInputSceneArgs nextSceneInputArgs) : base(nextSceneInputArgs)
         {
         }
     }

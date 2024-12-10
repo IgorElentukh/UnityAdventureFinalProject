@@ -1,4 +1,5 @@
 using Assets.ProjectFolder.Develop.CommonServices.AssetsManagement;
+using Assets.ProjectFolder.Develop.CommonServices.GameModeService;
 using Assets.ProjectFolder.Develop.CommonServices.SceneManagement;
 using Assets.ProjectFolder.Develop.DI;
 using System;
@@ -10,16 +11,16 @@ namespace Assets.ProjectFolder.Develop.Gameplay.Infrastructure
     public class GameplayBootstrap : MonoBehaviour
     {
         private DIContainer _container;
+        private GameModeType _gameModeType;
 
         public IEnumerator Run(DIContainer container, GameplayInputArgs gameplayInputArgs)
         {
             _container = container;
+            _gameModeType = gameplayInputArgs.GameModeType;
 
             ProcessRegistrations();
 
-            Debug.Log($"Loading resources for level {gameplayInputArgs.LevelNumber}");
-            Debug.Log("Creating of character");
-            Debug.Log("Scene is ready");
+            Debug.Log($"Game Mode Type: {gameplayInputArgs.GameModeType}");
 
             yield return new WaitForSeconds(1f); 
         }
@@ -28,7 +29,7 @@ namespace Assets.ProjectFolder.Develop.Gameplay.Infrastructure
         {
             RegisterGameplayService(_container);
 
-            _container.Resolve<GameplayService>().Initialize(_container);
+            _container.Resolve<GameplayService>().Initialize(_container, _gameModeType);
         }
 
         private void RegisterGameplayService(DIContainer container)
